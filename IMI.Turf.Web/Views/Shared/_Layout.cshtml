@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="en" ng-app>
+    <head>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.0/themes/base/jquery-ui.css" />
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryui")
+        @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/bundles/modernizr")
+        <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
+        <script src="~/Scripts/Turf.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
+        @Styles.Render("~/Content/bootstrap")
+        @Styles.Render("~/Content/css")
+
+
+    </head>
+    <body>
+
+        <div class="navbar navbar-default">
+        <div class="container">
+        <a class="navbar-brand" href="#">Brand</a>
+        <ul class="nav navbar-nav">
+          <li class="active">@Html.ActionLink("Home", "Index", "Home")</li>
+          <li class="divider-vertical"></li>
+          <li><a href="/Activity/Index">My Activities</a></li>
+          <li><a href="#">Options</a></li>
+        </ul>
+        @Html.Partial("_LoginPartial")
+        </div>
+        </div>
+
+        <div class="container">
+        @RenderBody()
+        <hr>
+        </div> <!-- /container -->
+        
+        @RenderSection("scripts", required: false)
+
+
+
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+		    <a href="#" class="btn btn-success pull-right" data-dismiss="modal">×</a>
+		    <h4>Welcome to my cool site!</h4>
+	    </div>
+	    <div class="modal-body">
+        <div class="form-group">
+            <label for="UserName">User Name</label>
+            <input type="text" class="form-control" name="UserName" id="UserName">
+        </div>
+        <div class="form-group">
+            <label for="Password">Password</label>
+            <input type="password" class="form-control" name="Password" id="Password">
+        </div>
+		<p><button type="submit" id="btnLogin" class="btn btn-success">Sign in</button> <a href="<?= base_url();?>/forgotpassword">Forgot Password</a></p>
+	    </div>		
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="btnSubmit">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+  
+        $("#btnLogin").click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '/account/login',
+                data: JSON.stringify(
+                    {
+                        "UserName": $("#UserName").val(),
+                        "Password": $("#Password").val(),
+                    }
+                ),
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data == "ok")//login succesful
+                    {
+                        location.reload();
+                    }
+                    else
+                        alert(data);
+                },
+                error: function (err) {
+                    alert("error - " + err.statusText);
+                }
+            });
+        });
+    });
+</script>
+    </body>
+</html>

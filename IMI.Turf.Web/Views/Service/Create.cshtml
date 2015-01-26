@@ -1,0 +1,172 @@
+﻿@model IMI.Turf.Web.Models.ServiceRequestViewModel
+
+@{
+    ViewBag.Title = "Request Service";
+}
+<script src="~/Scripts/moment.js"></script>
+<link href="~/Content/jquery.comiseo.daterangepicker.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.comiseo.daterangepicker.js"></script>
+<script src="~/Scripts/jquery.maskMoney.js"></script>
+
+  <div class="form-group">
+    <label for="RequestCategoryId">Select category your request falls into</label>
+    <select  class="form-control" name="RequestCategoryId" id="RequestCategoryId">
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="RequestName">Describe request in less then 5 words (e.g "cut my lawn" or "deliver furniture" or "help me move")</label>
+    <input type="text" class="form-control" name="RequestName" id="RequestName" placeholder="Describe request">
+  </div>
+  <div class="form-group">
+    <label for="ServiceDate">When do you need the service</label>
+    <input type="text" value="Date" class="form-control" name="ServiceDate" id="ServiceDate">
+  </div>
+  <div class="form-group">
+    <label>What price range do you have in mind?</label>
+    <label class="radio">
+      <input type="radio" name="inlineRadioOptions" id="optNoPrice" value="0"> No Specific Price - Will negotiate
+    </label>
+    <label class="radio">
+      <input type="radio" name="inlineRadioOptions" id="optMaxFull" value="1"> Max price for entire work
+    </label>
+    <label class="radio">
+      <input type="radio" name="inlineRadioOptions" id="optMaxHour" value="2"> Max hourly rate
+    </label>
+    <input type="text" class="form-control" name="budget" id="ServiceBudget">
+  </div>
+  <div class="form-group">
+    <label for="RequestDescription">Describe the request in details</label>
+    <textarea class="form-control" name="RequestDescription" id="RequestDescription" rows="3"></textarea>
+  </div>
+
+  <button type="submit" id="submit" class="btn btn-default">Submit</button>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //Populate service types dropdown
+        $.getJSON('/service/GetCategories', function (result) {
+            var ddl = $('#RequestCategoryId');
+            var selected = getParameterByName("cid");
+            ddl.empty();
+            $(result).each(function () {
+                var option= $(document.createElement('option'));
+                option.attr('value', this.ServiceCategoryId)
+                option.text(this.CategoryName)
+                if (selected && this.ServiceCategoryId == selected)
+                    option.attr('selected', true);
+
+                option.appendTo(ddl);
+            });
+
+
+        });
+
+        $(function () {
+            $('#ServiceDate').daterangepicker(
+                {
+                    presetRanges: [
+                        {
+                            text: 'Today',
+                            dateStart: function () { return moment() },
+                            dateEnd: function () { return moment() }
+                        },
+                        {
+                            text: 'Tomorrow',
+                            dateStart: function () { return moment().add('days', 1) },
+                            dateEnd: function () { return moment().add('days', 1) }
+                        }
+                        ,
+                        {
+                            text: 'Next 7 Days',
+                            dateStart: function () { return moment() },
+                            dateEnd: function () { return moment().add('days', 6) }
+                        }
+                        ,
+                        {
+                            text: 'Next Week',
+                            dateStart: function () { return moment().add('weeks', 1).startOf('week') },
+                            dateEnd: function () { return moment().add('weeks', 1).endOf('week') }
+                        }
+                    ],
+                    applyOnMenuSelect: false,
+                    datepickerOptions: {minDate: 0, maxDate: null}
+                }
+
+                );
+        });
+        $(function () {
+            $('#ServiceBudget').maskMoney();
+            $("#optNoPrice").change(function () {
+                $("#ServiceBudget").val("");
+                $("#ServiceBudget").prop('disabled', true);
+            });
+            $("#optMaxFull").change(function () {
+                $("#ServiceBudget").prop('disabled', false);
+            });
+            $("#optMaxHour").change(function () {
+                $("#ServiceBudget").prop('disabled', false);
+            });
+        });
+        $("#submit").click(function(){
+            var selectedRange = $("#ServiceDate").daterangepicker("getRange");
+            var minDate = selectedRange.start;
+            var maxDate = selectedRange.end;
+            var shortDesc = $("#RequestName").val();
+            var category = $("#RequestCategoryId").val();
+            var budget = $("#ServiceBudget").val();
+            var description = $("#RequestDescription").val();
+            var rateId;
+            if ($("#optNoPrice").is(':checked')) {
+                rateId = ("#optNoPrice").val();
+            }
+            if ($("#optMaxFull").is(':checked')) {
+                rateId = $("#optMaxFull").val();
+            }
+            if ($("#optMaxHour").is(':checked')) {
+                rateId = $("#optMaxHour").val();
+            }
+            var serviceDate;
+      
+            if (minDate.toString() === maxDate.toString()) {
+                $("#ServiceDate").val(minDate);
+                serviceDate = minDate;
+            }
+            else {
+                minDate=minDate;
+                maxDate = maxDate;
+            }
+            var model = {
+                "ServiceDate": serviceDate,
+                "MinDate": minDate,
+                "MaxDate": maxDate,
+                "RequestName": shortDesc,
+                "RequestCategoryId": category,
+                "ServiceBudget": budget,
+                "RequestDescription": description,
+                "RateId": rateId
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '/service/create',
+                data: JSON.stringify(model),
+                contentType: 'application/json',
+                success: showConfirmation(),
+                error: function (err) {
+                    alert("error - " + err);
+                }
+            });
+
+        });
+    
+    });
+    function showConfirmation() {
+        
+    }
+</script>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

@@ -1,0 +1,52 @@
+﻿@using IMI.Turf.DataModels;
+
+@model List<Bid>
+
+<h2>Current Bidsts</h2>
+
+<div class="table-responsive">
+
+    <table class="table table-striped table-hover">
+
+        <tr>
+
+            <th>
+                Title
+
+            </th>
+
+            <th>
+
+                Category
+
+            </th>
+
+            <th>
+
+                Date Needed
+
+            </th>
+
+            <th>
+
+                Budget
+
+            </th>
+
+            <th>
+
+
+            </th>
+
+        </tr> 
+
+    @foreach (ServiceRequestViewModel item in Model)
+    { 
+
+        @Html.Partial("_ServiceRequest", item)
+
+    } 
+
+    </table> 
+
+</div>

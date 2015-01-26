@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="IMIModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="IMIModelStoreContainer">
+    <EntitySet Name="ServiceCategory" EntityType="IMIModel.Store.ServiceCategory" store:Type="Tables" Schema="dbo" />
+  </EntityContainer>
+  <EntityType Name="ServiceCategory">
+    <Key>
+      <PropertyRef Name="ServiceCategoryId" />
+    </Key>
+    <Property Name="ServiceCategoryId" Type="int" Nullable="false" />
+    <Property Name="CategoryName" Type="varchar" Nullable="false" MaxLength="200" />
+    <Property Name="CategoryDescription" Type="varchar" MaxLength="400" />
+  </EntityType>
+</Schema>

@@ -1,0 +1,54 @@
+﻿
+
+<div class="container">
+ <div class="row">
+ <div class="span12">
+ <ul class="nav nav-tabs">
+        <li class="active"><a href="#login" data-toggle="tab">Login</a></li>
+        <li><a href="#create" data-toggle="tab">Create Account</a></li>
+ </ul>
+<div id="myTabContent" class="tab-content">
+<div class="tab-pane active" id="login">
+ <form method="post"  action="~/Account/Login">
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <label for="UserName">User Name</label>
+            <input type="text" class="form-control" name="UserName" id="UserName">
+        </div>
+        <div class="form-group">
+            <label for="Password">Password</label>
+            <input type="password" class="form-control" name="Password" id="Password">
+        </div>
+		<p><button type="submit" class="btn btn-success">Sign in</button> <a href="<?= base_url();?>/forgotpassword">Forgot Password</a></p>
+        
+        <div>@ViewBag.Error</div>
+       <input type="hidden" id="returnUrl" name="returnUrl" value="@ViewBag.ReturnUrl" />
+ </form>
+</div>
+
+<div class="tab-pane" id="create">
+ <form method="post"  action="~/Account/Register">
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <label for="UserName">User Name</label>
+            <input type="text" class="form-control" name="UserName" id="UserName">
+        </div>
+        <div class="form-group">
+            <label for="Password">Password</label>
+            <input type="password" class="form-control" name="Password" id="Password">
+        </div>
+        <div class="form-group">
+            <label for="Password">Confirm Password</label>
+            <input type="password" class="form-control" name="ConfirmPassword" id="ConfirmPassword">
+        </div>
+		<p><button type="submit" class="btn btn-success">Register</button></p>
+ </form>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+@section Scripts {
+
+}

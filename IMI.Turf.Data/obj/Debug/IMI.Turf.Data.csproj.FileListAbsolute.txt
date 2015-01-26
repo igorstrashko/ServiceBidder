@@ -1,0 +1,5 @@
+C:\Development\Turf\IMI.Turf.Data\bin\Debug\IMI.Turf.Data.dll
+C:\Development\Turf\IMI.Turf.Data\bin\Debug\IMI.Turf.Data.pdb
+C:\Development\Turf\IMI.Turf.Data\obj\Debug\IMI.Turf.Data.csprojResolveAssemblyReference.cache
+C:\Development\Turf\IMI.Turf.Data\obj\Debug\IMI.Turf.Data.dll
+C:\Development\Turf\IMI.Turf.Data\obj\Debug\IMI.Turf.Data.pdb

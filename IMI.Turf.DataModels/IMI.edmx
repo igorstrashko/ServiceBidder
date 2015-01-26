@@ -1,0 +1,428 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="IMIModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="IMIModelStoreContainer">
+          <EntitySet Name="Bid" EntityType="IMIModel.Store.Bid" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Message" EntityType="IMIModel.Store.Message" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ServiceCategory" EntityType="IMIModel.Store.ServiceCategory" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ServiceRequest" EntityType="IMIModel.Store.ServiceRequest" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserProfile" EntityType="IMIModel.Store.UserProfile" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Bid_ServiceRequest" Association="IMIModel.Store.FK_Bid_ServiceRequest">
+            <End Role="ServiceRequest" EntitySet="ServiceRequest" />
+            <End Role="Bid" EntitySet="Bid" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bid_UserProfile" Association="IMIModel.Store.FK_Bid_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="Bid" EntitySet="Bid" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Message_ServiceRequest" Association="IMIModel.Store.FK_Message_ServiceRequest">
+            <End Role="ServiceRequest" EntitySet="ServiceRequest" />
+            <End Role="Message" EntitySet="Message" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceRequest_ServiceCategory" Association="IMIModel.Store.FK_ServiceRequest_ServiceCategory">
+            <End Role="ServiceCategory" EntitySet="ServiceCategory" />
+            <End Role="ServiceRequest" EntitySet="ServiceRequest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceRequest_ServiceRequest" Association="IMIModel.Store.FK_ServiceRequest_ServiceRequest">
+            <End Role="ServiceRequest" EntitySet="ServiceRequest" />
+            <End Role="ServiceRequest1" EntitySet="ServiceRequest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceRequest_UserProfile" Association="IMIModel.Store.FK_ServiceRequest_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="ServiceRequest" EntitySet="ServiceRequest" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Bid">
+          <Key>
+            <PropertyRef Name="BidId" />
+          </Key>
+          <Property Name="BidId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="BidAmount" Type="decimal" Nullable="false" />
+          <Property Name="ServiceRequestId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="MessageId" />
+          </Key>
+          <Property Name="MessageId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ServiceRequestId" Type="int" Nullable="false" />
+          <Property Name="MessageBody" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="FromUserId" Type="int" Nullable="false" />
+          <Property Name="ToUserId" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ServiceCategory">
+          <Key>
+            <PropertyRef Name="ServiceCategoryId" />
+          </Key>
+          <Property Name="ServiceCategoryId" Type="int" Nullable="false" />
+          <Property Name="CategoryName" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="CategoryDescription" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="ServiceRequest">
+          <Key>
+            <PropertyRef Name="ServiceRequestId" />
+          </Key>
+          <Property Name="ServiceRequestId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="RequestName" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="RequestDescription" Type="varchar(max)" />
+          <Property Name="RequestCategoryid" Type="int" Nullable="false" />
+          <Property Name="RequestAddressId" Type="int" />
+          <Property Name="ServiceDate" Type="date" />
+          <Property Name="MinDate" Type="date" />
+          <Property Name="MaxDate" Type="date" />
+          <Property Name="ServiceBudget" Type="money" />
+          <Property Name="MinBudget" Type="money" />
+          <Property Name="MaxBudget" Type="money" />
+          <Property Name="CreatedDate" Type="date" Nullable="false" />
+          <Property Name="RateId" Type="smallint" />
+        </EntityType>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_Bid_ServiceRequest">
+          <End Role="ServiceRequest" Type="IMIModel.Store.ServiceRequest" Multiplicity="1" />
+          <End Role="Bid" Type="IMIModel.Store.Bid" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceRequest">
+              <PropertyRef Name="ServiceRequestId" />
+            </Principal>
+            <Dependent Role="Bid">
+              <PropertyRef Name="ServiceRequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Bid_UserProfile">
+          <End Role="UserProfile" Type="IMIModel.Store.UserProfile" Multiplicity="1" />
+          <End Role="Bid" Type="IMIModel.Store.Bid" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Bid">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Message_ServiceRequest">
+          <End Role="ServiceRequest" Type="IMIModel.Store.ServiceRequest" Multiplicity="1" />
+          <End Role="Message" Type="IMIModel.Store.Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceRequest">
+              <PropertyRef Name="ServiceRequestId" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="ServiceRequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceRequest_ServiceCategory">
+          <End Role="ServiceCategory" Type="IMIModel.Store.ServiceCategory" Multiplicity="1" />
+          <End Role="ServiceRequest" Type="IMIModel.Store.ServiceRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceCategory">
+              <PropertyRef Name="ServiceCategoryId" />
+            </Principal>
+            <Dependent Role="ServiceRequest">
+              <PropertyRef Name="RequestCategoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceRequest_ServiceRequest">
+          <End Role="ServiceRequest" Type="IMIModel.Store.ServiceRequest" Multiplicity="1" />
+          <End Role="ServiceRequest1" Type="IMIModel.Store.ServiceRequest" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceRequest">
+              <PropertyRef Name="ServiceRequestId" />
+            </Principal>
+            <Dependent Role="ServiceRequest1">
+              <PropertyRef Name="ServiceRequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceRequest_UserProfile">
+          <End Role="UserProfile" Type="IMIModel.Store.UserProfile" Multiplicity="1" />
+          <End Role="ServiceRequest" Type="IMIModel.Store.ServiceRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ServiceRequest">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="IMIModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="IMIEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="ServiceCategories" EntityType="IMIModel.ServiceCategory" />
+          <EntitySet Name="Bids" EntityType="IMIModel.Bid" />
+          <EntitySet Name="UserProfiles" EntityType="IMIModel.UserProfile" />
+          <AssociationSet Name="FK_Bid_UserProfile" Association="IMIModel.FK_Bid_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="Bid" EntitySet="Bids" />
+          </AssociationSet>
+          <EntitySet Name="ServiceRequests" EntityType="IMIModel.ServiceRequest" />
+          <AssociationSet Name="FK_Bid_ServiceRequest" Association="IMIModel.FK_Bid_ServiceRequest">
+            <End Role="ServiceRequest" EntitySet="ServiceRequests" />
+            <End Role="Bid" EntitySet="Bids" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceRequest_ServiceCategory" Association="IMIModel.FK_ServiceRequest_ServiceCategory">
+            <End Role="ServiceCategory" EntitySet="ServiceCategories" />
+            <End Role="ServiceRequest" EntitySet="ServiceRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceRequest_ServiceRequest" Association="IMIModel.FK_ServiceRequest_ServiceRequest">
+            <End Role="ServiceRequest" EntitySet="ServiceRequests" />
+            <End Role="ServiceRequest1" EntitySet="ServiceRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceRequest_UserProfile" Association="IMIModel.FK_ServiceRequest_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="ServiceRequest" EntitySet="ServiceRequests" />
+          </AssociationSet>
+          <EntitySet Name="Messages" EntityType="IMIModel.Message" />
+          <AssociationSet Name="FK_Message_ServiceRequest" Association="IMIModel.FK_Message_ServiceRequest">
+            <End Role="ServiceRequest" EntitySet="ServiceRequests" />
+            <End Role="Message" EntitySet="Messages" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ServiceCategory">
+          <Key>
+            <PropertyRef Name="ServiceCategoryId" />
+          </Key>
+          <Property Name="ServiceCategoryId" Type="Int32" Nullable="false" />
+          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="CategoryDescription" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="ServiceRequests" Relationship="IMIModel.FK_ServiceRequest_ServiceCategory" FromRole="ServiceCategory" ToRole="ServiceRequest" />
+        </EntityType>
+        <EntityType Name="Bid">
+          <Key>
+            <PropertyRef Name="BidId" />
+          </Key>
+          <Property Type="Int32" Name="BidId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Decimal" Name="BidAmount" Nullable="false" Precision="18" Scale="0" />
+          <Property Type="Int32" Name="ServiceRequestId" Nullable="false" />
+          <Property Type="Int32" Name="UserId" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="3" />
+          <NavigationProperty Name="UserProfile" Relationship="IMIModel.FK_Bid_UserProfile" FromRole="Bid" ToRole="UserProfile" />
+          <NavigationProperty Name="ServiceRequest" Relationship="IMIModel.FK_Bid_ServiceRequest" FromRole="Bid" ToRole="ServiceRequest" />
+        </EntityType>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Type="Int32" Name="UserId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="UserName" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Bids" Relationship="IMIModel.FK_Bid_UserProfile" FromRole="UserProfile" ToRole="Bid" />
+          <NavigationProperty Name="ServiceRequests" Relationship="IMIModel.FK_ServiceRequest_UserProfile" FromRole="UserProfile" ToRole="ServiceRequest" />
+        </EntityType>
+        <Association Name="FK_Bid_UserProfile">
+          <End Type="IMIModel.UserProfile" Role="UserProfile" Multiplicity="1" />
+          <End Type="IMIModel.Bid" Role="Bid" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Bid">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ServiceRequest">
+          <Key>
+            <PropertyRef Name="ServiceRequestId" />
+          </Key>
+          <Property Type="Int32" Name="ServiceRequestId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="CreatedBy" Nullable="false" />
+          <Property Type="String" Name="RequestName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="RequestDescription" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="RequestCategoryid" Nullable="false" />
+          <Property Type="Int32" Name="RequestAddressId" />
+          <Property Type="DateTime" Name="ServiceDate" Precision="0" />
+          <Property Type="DateTime" Name="MinDate" Precision="0" />
+          <Property Type="DateTime" Name="MaxDate" Precision="0" />
+          <Property Type="Decimal" Name="ServiceBudget" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="MinBudget" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="MaxBudget" Precision="19" Scale="4" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="0" />
+          <Property Type="Int16" Name="RateId" />
+          <NavigationProperty Name="Bids" Relationship="IMIModel.FK_Bid_ServiceRequest" FromRole="ServiceRequest" ToRole="Bid" />
+          <NavigationProperty Name="ServiceCategory" Relationship="IMIModel.FK_ServiceRequest_ServiceCategory" FromRole="ServiceRequest" ToRole="ServiceCategory" />
+          <NavigationProperty Name="ServiceRequest1" Relationship="IMIModel.FK_ServiceRequest_ServiceRequest" FromRole="ServiceRequest" ToRole="ServiceRequest1" />
+          <NavigationProperty Name="ServiceRequest2" Relationship="IMIModel.FK_ServiceRequest_ServiceRequest" FromRole="ServiceRequest1" ToRole="ServiceRequest" />
+          <NavigationProperty Name="UserProfile" Relationship="IMIModel.FK_ServiceRequest_UserProfile" FromRole="ServiceRequest" ToRole="UserProfile" />
+          <NavigationProperty Name="Messages" Relationship="IMIModel.FK_Message_ServiceRequest" FromRole="ServiceRequest" ToRole="Message" />
+        </EntityType>
+        <Association Name="FK_Bid_ServiceRequest">
+          <End Type="IMIModel.ServiceRequest" Role="ServiceRequest" Multiplicity="1" />
+          <End Type="IMIModel.Bid" Role="Bid" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceRequest">
+              <PropertyRef Name="ServiceRequestId" />
+            </Principal>
+            <Dependent Role="Bid">
+              <PropertyRef Name="ServiceRequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceRequest_ServiceCategory">
+          <End Type="IMIModel.ServiceCategory" Role="ServiceCategory" Multiplicity="1" />
+          <End Type="IMIModel.ServiceRequest" Role="ServiceRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceCategory">
+              <PropertyRef Name="ServiceCategoryId" />
+            </Principal>
+            <Dependent Role="ServiceRequest">
+              <PropertyRef Name="RequestCategoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceRequest_ServiceRequest">
+          <End Type="IMIModel.ServiceRequest" Role="ServiceRequest" Multiplicity="1" />
+          <End Type="IMIModel.ServiceRequest" Role="ServiceRequest1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceRequest">
+              <PropertyRef Name="ServiceRequestId" />
+            </Principal>
+            <Dependent Role="ServiceRequest1">
+              <PropertyRef Name="ServiceRequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceRequest_UserProfile">
+          <End Type="IMIModel.UserProfile" Role="UserProfile" Multiplicity="1" />
+          <End Type="IMIModel.ServiceRequest" Role="ServiceRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ServiceRequest">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="MessageId" />
+          </Key>
+          <Property Type="Int32" Name="MessageId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="ServiceRequestId" Nullable="false" />
+          <Property Type="String" Name="MessageBody" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="FromUserId" Nullable="false" />
+          <Property Type="Int32" Name="ToUserId" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="3" />
+          <NavigationProperty Name="ServiceRequest" Relationship="IMIModel.FK_Message_ServiceRequest" FromRole="Message" ToRole="ServiceRequest" />
+        </EntityType>
+        <Association Name="FK_Message_ServiceRequest">
+          <End Type="IMIModel.ServiceRequest" Role="ServiceRequest" Multiplicity="1" />
+          <End Type="IMIModel.Message" Role="Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceRequest">
+              <PropertyRef Name="ServiceRequestId" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="ServiceRequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="IMIModelStoreContainer" CdmEntityContainer="IMIEntities">
+          <EntitySetMapping Name="ServiceCategories">
+            <EntityTypeMapping TypeName="IMIModel.ServiceCategory">
+              <MappingFragment StoreEntitySet="ServiceCategory">
+                <ScalarProperty Name="ServiceCategoryId" ColumnName="ServiceCategoryId" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="CategoryDescription" ColumnName="CategoryDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bids">
+            <EntityTypeMapping TypeName="IMIModel.Bid">
+              <MappingFragment StoreEntitySet="Bid">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ServiceRequestId" ColumnName="ServiceRequestId" />
+                <ScalarProperty Name="BidAmount" ColumnName="BidAmount" />
+                <ScalarProperty Name="BidId" ColumnName="BidId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserProfiles">
+            <EntityTypeMapping TypeName="IMIModel.UserProfile">
+              <MappingFragment StoreEntitySet="UserProfile">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiceRequests">
+            <EntityTypeMapping TypeName="IMIModel.ServiceRequest">
+              <MappingFragment StoreEntitySet="ServiceRequest">
+                <ScalarProperty Name="RateId" ColumnName="RateId" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="MaxBudget" ColumnName="MaxBudget" />
+                <ScalarProperty Name="MinBudget" ColumnName="MinBudget" />
+                <ScalarProperty Name="ServiceBudget" ColumnName="ServiceBudget" />
+                <ScalarProperty Name="MaxDate" ColumnName="MaxDate" />
+                <ScalarProperty Name="MinDate" ColumnName="MinDate" />
+                <ScalarProperty Name="ServiceDate" ColumnName="ServiceDate" />
+                <ScalarProperty Name="RequestAddressId" ColumnName="RequestAddressId" />
+                <ScalarProperty Name="RequestCategoryid" ColumnName="RequestCategoryid" />
+                <ScalarProperty Name="RequestDescription" ColumnName="RequestDescription" />
+                <ScalarProperty Name="RequestName" ColumnName="RequestName" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ServiceRequestId" ColumnName="ServiceRequestId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Messages">
+            <EntityTypeMapping TypeName="IMIModel.Message">
+              <MappingFragment StoreEntitySet="Message">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ToUserId" ColumnName="ToUserId" />
+                <ScalarProperty Name="FromUserId" ColumnName="FromUserId" />
+                <ScalarProperty Name="MessageBody" ColumnName="MessageBody" />
+                <ScalarProperty Name="ServiceRequestId" ColumnName="ServiceRequestId" />
+                <ScalarProperty Name="MessageId" ColumnName="MessageId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

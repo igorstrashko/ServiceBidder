@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="27ae5e4be8b048b79f7efce50f52c893" Name="Diagram1">
+        <EntityTypeShape EntityType="IMIModel.ServiceCategory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="IMIModel.Bid" Width="1.5" PointX="9.5337149228592" PointY="23.8480609170385" />
+        <EntityTypeShape EntityType="IMIModel.UserProfile" Width="1.5" PointX="3.5449765210715012" PointY="10.109179859100459" />
+        <AssociationConnector Association="IMIModel.FK_Bid_UserProfile" />
+        <EntityTypeShape EntityType="IMIModel.ServiceRequest" Width="1.5" PointX="6.9563946961222189" PointY="16.660385795245126" />
+        <AssociationConnector Association="IMIModel.FK_Bid_ServiceRequest" />
+        <AssociationConnector Association="IMIModel.FK_ServiceRequest_ServiceCategory" />
+        <AssociationConnector Association="IMIModel.FK_ServiceRequest_ServiceRequest" />
+        <AssociationConnector Association="IMIModel.FK_ServiceRequest_UserProfile" />
+        <EntityTypeShape EntityType="IMIModel.Message" Width="1.5" PointX="4.8521768510584611" PointY="18.832824864812579" />
+        <AssociationConnector Association="IMIModel.FK_Message_ServiceRequest" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

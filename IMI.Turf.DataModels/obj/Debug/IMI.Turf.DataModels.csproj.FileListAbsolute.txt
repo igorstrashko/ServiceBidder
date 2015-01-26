@@ -1,0 +1,14 @@
+C:\Development\Turf\IMI.Turf.DataModels\bin\Debug\IMI.Turf.DataModels.dll.config
+C:\Development\Turf\IMI.Turf.DataModels\bin\Debug\IMI.Turf.DataModels.dll
+C:\Development\Turf\IMI.Turf.DataModels\bin\Debug\IMI.Turf.DataModels.pdb
+C:\Development\Turf\IMI.Turf.DataModels\bin\Debug\EntityFramework.dll
+C:\Development\Turf\IMI.Turf.DataModels\bin\Debug\EntityFramework.SqlServer.dll
+C:\Development\Turf\IMI.Turf.DataModels\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+C:\Development\Turf\IMI.Turf.DataModels\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Development\Turf\IMI.Turf.DataModels\bin\Debug\EntityFramework.xml
+C:\Development\Turf\IMI.Turf.DataModels\bin\Debug\EntityFramework.SqlServer.xml
+C:\Development\Turf\IMI.Turf.DataModels\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+C:\Development\Turf\IMI.Turf.DataModels\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Development\Turf\IMI.Turf.DataModels\obj\Debug\IMI.Turf.DataModels.dll
+C:\Development\Turf\IMI.Turf.DataModels\obj\Debug\IMI.Turf.DataModels.pdb
+C:\Development\Turf\IMI.Turf.DataModels\obj\Debug\IMI.Turf.DataModels.csprojResolveAssemblyReference.cache

@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+       <div class="jumbotron text-center">
+        <h1>@ViewBag.Title</h1>
+        <p class="lead">Post any service and allow providers compete for your business! Looking to earn cash? Provide a service today! </p>
+        <p><a class="btn btn-large btn-success" href="http://bootply.com/tagged/bootstrap-3" target="ext">I need a service!</a>
+            <a class="btn btn-large btn-success" href="http://bootply.com/tagged/bootstrap-3" target="ext">I can provide a service!</a>
+        </p>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+              <h4>Post a request</h4>
+                <div class="form-group">
+                <label for="RequestCategoryId">Select category your request falls into</label>
+                <select  class="form-control" name="RequestCategoryId" id="RequestCategoryId">
+                </select>
+                <a id="create" href="">Create</a>
+                </div>
+            </div>
+    
+            <div class="col-lg-6">
+              <h4>Current requests around your area:</h4>
+              <div id ="currentRequests"></div>
+            </div>
+        </div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#create").click(function () {
+            var redirect = "/service/create?cid=" + $("#RequestCategoryId").val();
+            window.location.href = redirect;
+        });
+
+        //Get current requests
+        $.getJSON('/service/GetRequests', function (result) {
+            var div = $('#currentRequests');
+            var tbl = $("<table class='table table-striped table-hover' />").attr("id", "mytable");
+            div.append(tbl);
+            tbl.append('<th>Name</th><th>Category</th><th>Published</th><th>Budget</th>');
+            $(result).each(function () {
+                var tr = "<tr>";
+                var td1 = "<td>" + "<a href='Details/Details/" + this.ServiceRequestId + "' >" + this.RequestName + "</a>" + "</td>";
+                var td2 = "<td>" + this.RequestCategoryDisplay + "</td>";
+                var td3 = "<td>" + this.CreatedDisplay + "</td>";
+                var td4 = "<td>" + this.BudgetDisplay + "</td>";
+                tbl.append(tr  + td1 + td2 + td3 + td4 +  "</tr>");
+            });
+        });
+
+        $.getJSON('/service/GetCategories', function (result) {
+            var ddl = $('#RequestCategoryId');
+            ddl.empty();
+            $(result).each(function () {
+                $(document.createElement('option'))
+                    .attr('value', this.ServiceCategoryId)
+                    .text(this.CategoryName)
+                    .appendTo(ddl);
+            });
+        });
+    });
+
+</script>
+
+
+

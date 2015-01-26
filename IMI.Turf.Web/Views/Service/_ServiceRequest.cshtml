@@ -1,0 +1,37 @@
+﻿@using IMI.Turf.Web.Models;
+
+@model ServiceRequestViewModel
+
+
+<tr>
+
+    <td>
+
+        @Html.Encode(Model.RequestName)
+
+    </td>
+
+    <td>
+
+        @Html.Encode(Model.RequestCategory)
+
+    </td>
+
+    <td>
+
+        @Html.Encode(Model.DateDisplay)
+
+    </td>
+
+    <td>
+
+        @Html.Encode(Model.BudgetDisplay)
+
+    </td>
+
+    <td>
+        @Html.ActionLink("View",  "Details", "Detail", new { id=Model.ServiceRequestId })
+
+    </td>
+
+</tr>
